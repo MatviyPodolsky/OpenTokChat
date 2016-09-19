@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.way.mat.opentokchat.R;
+import com.way.mat.opentokchat.adapters.PopupAdapter;
 import com.way.mat.opentokchat.adapters.RoomsAdapter;
+import com.way.mat.opentokchat.items.PopupItem;
 import com.way.mat.opentokchat.items.Room;
 import com.way.mat.opentokchat.utils.PrefKeys;
 import com.way.mat.opentokchat.views.SimpleDividerItemDecoration;
@@ -17,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by matviy on 19.09.16.
@@ -27,8 +34,13 @@ public class RoomsActivity extends BaseActivity {
     private List<Room> mRooms = new ArrayList<>();
     private LinearLayoutManager mLayoutManager;
 
+    private ListPopupWindow mPopup;
+    private List<PopupItem> popupItems = new ArrayList<>();
+
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
+    @BindView(R.id.settings)
+    ImageButton btnSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,14 +48,47 @@ public class RoomsActivity extends BaseActivity {
 
         setTitle(R.string.title_rooms);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         initRecycler();
+        initPopup();
     }
 
     @Override
     protected int getActivityResource() {
         return R.layout.activity_rooms;
+    }
+
+    @OnClick(R.id.settings)
+    public void settingsClick(View v) {
+        if (mPopup != null) {
+            mPopup.show();//showing popup menu
+        }
+    }
+
+    private void initPopup() {
+        popupItems.add(new PopupItem(R.drawable.ic_menu_edit_normal, getString(R.string.action_login), PopupItem.Type.USERNAME));
+        popupItems.add(new PopupItem(R.drawable.ic_menu_list_normal, getString(R.string.action_about), PopupItem.Type.ABOUT));
+
+        mPopup = new ListPopupWindow(this);
+
+        final PopupAdapter adapter = new PopupAdapter(this, popupItems);
+
+        mPopup.setAnchorView(btnSettings);
+        mPopup.setAdapter(adapter);
+        mPopup.setWidth(getResources().getDimensionPixelSize(R.dimen.popup_width)); // note: don't use pixels, use a dimen resource
+        mPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                launchActivity(popupItems.get(i).getType());
+                if (mPopup != null) {
+                    mPopup.dismiss();
+                }
+            }
+        }); // the callback for when a list item is selected
+
     }
 
     private void initRecycler() {
@@ -68,5 +113,18 @@ public class RoomsActivity extends BaseActivity {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
         mRecycler.addItemDecoration(new SimpleDividerItemDecoration(this));
 
+    }
+
+    private void launchActivity(PopupItem.Type type) {
+        if (type != null) {
+            switch (type) {
+                case USERNAME:
+                    startActivity(new Intent(RoomsActivity.this, LoginActivity.class));
+                    break;
+                case ABOUT:
+                    startActivity(new Intent(RoomsActivity.this, AboutActivity.class));
+                    break;
+            }
+        }
     }
 }
