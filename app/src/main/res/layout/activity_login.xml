@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_layout"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/username_info_height"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/top_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_info_1"
+                    android:textSize="@dimen/username_info_text_size"
+                    android:textColor="@color/info_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_info_2"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/username_info_text_size"
+                    android:textColor="@color/info_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_info_3"
+                    android:textSize="@dimen/username_info_text_size"
+                    android:textColor="@color/info_color"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top_info"
+                android:layout_alignLeft="@+id/top_info"
+                android:layout_alignRight="@+id/top_info"
+                android:text="@string/login_info_4"
+                android:gravity="center"
+                android:textSize="@dimen/username_info_text_size"
+                android:textColor="@color/info_color"/>
+
+        </RelativeLayout>
+
+
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/rl_info"
+            android:background="@color/black_grey"/>
+
+        <EditText
+            android:id="@+id/edLogin"
+            android:inputType="text"
+            android:layout_height="@dimen/username_height"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/divider1"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:textColor="@color/info_color"
+            android:maxEms="32"
+            android:hint="@string/hint_login"
+            android:drawableLeft="@drawable/ic_user_normal"
+            android:drawablePadding="@dimen/username_drawable_padding"
+            android:background="@android:color/transparent"
+            android:textColorHighlight="@color/colorPrimaryDark" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/edLogin"
+            android:background="@color/black_grey"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/saveLogin"
+            android:layout_width="@dimen/confirm_width"
+            android:layout_height="@dimen/confirm_height"
+            android:layout_centerHorizontal="true"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_blue"
+            android:drawableLeft="@drawable/ic_check"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/confirm_bot_margin"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

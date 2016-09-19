@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/skyq_splash">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtExperience"
+        android:layout_centerHorizontal="true"
+        android:text="@string/watch_together_title"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="@dimen/splash_text_margin"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtExperience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/splash_bottom_margin"
+        android:text="@string/experience_title"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_medium" />
+
+</RelativeLayout>

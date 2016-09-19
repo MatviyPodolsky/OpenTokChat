@@ -1,0 +1,98 @@
+package com.way.mat.skyq.activities;
+
+import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.pixplicity.easyprefs.library.Prefs;
+import com.way.mat.skyq.R;
+import com.way.mat.skyq.utils.PrefKeys;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+/**
+ * Created by oleh on 01.09.16.
+ */
+public class LoginActivity extends BaseActivity {
+
+    private static final String LOGTAG = LoginActivity.class.getSimpleName();
+
+    @BindView(R.id.saveLogin)
+    AppCompatButton saveLogin;
+    @BindView(R.id.edLogin)
+    EditText login;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setTitle(R.string.title_login);
+
+        login.setText(Prefs.getString(PrefKeys.LOGIN_USER, PrefKeys.EMPTY_STRING));
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
+    protected int getActivityResource() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @OnClick(R.id.saveLogin)
+    public void saveLogin() {
+        if (!isFinishing()) {
+            final String prevLogin = Prefs.getString(PrefKeys.LOGIN_USER, PrefKeys.EMPTY_STRING);
+            final String currentLogin = String.valueOf(login.getText());
+            Log.d(LOGTAG, "prevLogin: " + prevLogin);
+            Log.d(LOGTAG, "currentLogin: " + currentLogin);
+
+            if (!prevLogin.equals(currentLogin)) {
+                Prefs.putString(PrefKeys.LOGIN_USER, currentLogin);
+            }
+
+            Toast.makeText(this, "Login saved", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+}

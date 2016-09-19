@@ -1,0 +1,48 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="status_bar_padding">0dp</dimen>
+    <dimen name="settings_top_margin">10dp</dimen>
+    <dimen name="settings_right_margin">10dp</dimen>
+
+    <!--text sizes-->
+    <dimen name="text_medium">13sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_popup">12sp</dimen>
+
+    <!--splash-->
+    <dimen name="splash_bottom_margin">50dp</dimen>
+    <dimen name="splash_text_margin">20dp</dimen>
+
+    <!--popup-->
+    <dimen name="popup_height">36dp</dimen>
+    <dimen name="popup_width">142dp</dimen>
+    <dimen name="popup_side_margin">10dp</dimen>
+    <dimen name="popup_top_margin">8dp</dimen>
+
+    <!--main activity-->
+    <dimen name="logo_top_margin">115dp</dimen>
+    <dimen name="logo_bot_margin">32dp</dimen>
+    <dimen name="main_text_margin">10dp</dimen>
+    <dimen name="camera_bot_margin">74dp</dimen>
+    <dimen name="controls_layout_height">54dp</dimen>
+    <dimen name="control_layout_padding">12dp</dimen>
+    <dimen name="controls_height">30dp</dimen>
+    <dimen name="call_button_size">80dp</dimen>
+    <dimen name="controls_padding">0dp</dimen>
+
+    <!--login-->
+    <dimen name="username_info_height">105dp</dimen>
+    <dimen name="username_info_text_size">16sp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="username_height">80dp</dimen>
+    <dimen name="username_text_size">18sp</dimen>
+    <dimen name="username_drawable_padding">24dp</dimen>
+    <dimen name="confirm_height">54dp</dimen>
+    <dimen name="confirm_width">118dp</dimen>
+    <dimen name="confirm_bot_margin">126dp</dimen>
+
+    <!--about-->
+    <dimen name="about_padding">33dp</dimen>
+</resources>

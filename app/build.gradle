@@ -1,0 +1,109 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'android-apt'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+def APK_NAME = "SkyQPrototype"
+def versionMajor = 1
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 0
+
+def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}" //.${versionBuild}"
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "com.way.mat.opentokproject"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode commitCount()
+        versionName VERSION_NAME
+    }
+
+    signingConfigs {
+
+        debug {
+            try {
+                storeFile file("keys/debug.keystore")
+                storePassword DEBUG_KEYSTORE_PASSWORD
+                keyAlias "androiddebugkey"
+                keyPassword DEBUG_KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define DEBUG_KEYSTORE_PASSWORD and DEBUG_KEY_PASSWORD in gradle.properties.")
+            }
+        }
+
+        release {
+            try {
+                storeFile file("keys/debug.keystore")
+                storePassword RELEASE_KEYSTORE_PASSWORD
+                keyAlias "androiddebugkey"
+                keyPassword RELEASE_KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define RELEASE_KEYSTORE_PASSWORD and RELEASE_KEY_PASSWORD in gradle.properties.")
+            }
+        }
+
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            archivesBaseName = APK_NAME + "-" + VERSION_NAME;
+        }
+        release {
+            signingConfig signingConfigs.release
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            archivesBaseName = APK_NAME + "-" + VERSION_NAME;
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.opentok.android:opentok-android-sdk:2.8.1+'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.pixplicity.easyprefs:library:1.7'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
+}
+
+def commitCount() {
+    def stdout = new ByteArrayOutputStream()
+    description = "git rev-list --full-history --all"
+    println(description)
+    exec {
+        commandLine 'git', 'rev-list', '--full-history', '--all'
+        standardOutput = stdout
+    }
+    String output = stdout.toString();
+    List<String> commits = output.split("\n");
+    println("Version Code: " + commits.size())
+    return commits.size();
+}

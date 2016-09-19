@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2b7cf7</color>
+    <color name="colorPrimaryDark">#2060c1</color>
+    <color name="colorAccent">#2b7cf7</color>
+    <color name="colorAccentDark">#2b7cf7</color>
+
+    <color name="grey">#363636</color>
+    <color name="action_bar_title">#ffffff</color>
+    <color name="dark_grey">#282828</color>
+    <color name="trans_dark_grey">#80282828</color>
+    <color name="white">#ffffff</color>
+    <color name="trans_white">#20ffffff</color>
+    <color name="trans">#00000000</color>
+    <color name="blue">#cc33b5e5</color>
+    <color name="black_grey">#ff1f1f1f</color>
+    <color name="black">#000000</color>
+    <color name="init_gradient">#ff98CE00</color>
+    <color name="color0_gradient">#ff98CE00</color>
+    <color name="color1_gradient">#8098CE00</color>
+    <color name="shadow">#44000000</color>
+    <color name="controls_shadow">#44000000</color>
+
+
+    <color name="popup_text">#2b2e30</color>
+    <color name="login_divider">#dadee0</color>
+    <color name="info_color">#3c3c3c</color>
+</resources>

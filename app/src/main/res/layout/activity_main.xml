@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_defoult">
+
+    <SurfaceView
+        android:id="@+id/fake_surface_prevent_flash"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <com.way.mat.skyq.views.SquareImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/logo_top_margin"
+        android:layout_marginBottom="@dimen/logo_bot_margin"
+        android:background="@drawable/ic_tv"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/titleWatchTogether"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/main_text_margin"
+        android:text="@string/watch_together_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_medium"
+        android:layout_below="@+id/titleWatchTogether"
+        android:text="@string/experience_title" />
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true">
+
+            <FrameLayout
+                android:id="@+id/preview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:visibility="gone"></FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/preview4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:visibility="gone"></FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true">
+
+            <FrameLayout
+                android:id="@+id/preview2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:visibility="gone"></FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/preview3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:visibility="gone"></FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/settings_right_margin"
+        android:layout_marginTop="@dimen/settings_top_margin"
+        android:animateLayoutChanges="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ab_overflow" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_volume_levels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/status_bar_padding"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/user_name_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:maxLength="24"
+                android:maxLines="1"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/pb_volume_1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/user_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:maxLines="1"
+                android:maxLength="24"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/pb_volume_2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.way.mat.skyq.views.SquareImageView
+        android:id="@+id/img_call"
+        android:layout_width="@dimen/call_button_size"
+        android:layout_height="@dimen/call_button_size"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/camera_bot_margin"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_camera" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:animateLayoutChanges="true">
+
+        <RelativeLayout
+            android:id="@+id/rl_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/controls_layout_height"
+            android:background="@color/controls_shadow"
+            android:paddingTop="@dimen/control_layout_padding"
+            android:paddingBottom="@dimen/control_layout_padding"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/ll_controls"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/controls_height"
+                android:layout_alignParentBottom="true">
+
+                <RelativeLayout
+                    android:id="@+id/rl_mute"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/controls_padding"
+                    android:layout_weight="1">
+
+                    <com.way.mat.skyq.views.MeterView
+                        android:id="@+id/img_mute"
+                        android:layout_centerInParent="true"
+                        android:layout_width="@dimen/controls_height"
+                        android:layout_height="@dimen/controls_height"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_hold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/controls_padding"
+                    android:layout_weight="1">
+
+                    <com.way.mat.skyq.views.SquareImageView
+                        android:id="@+id/img_hold"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_tb_view_normal" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_volume"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/controls_padding"
+                    android:layout_weight="1">
+
+                    <com.way.mat.skyq.views.SquareImageView
+                        android:id="@+id/img_volume"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_tb_volume_normal" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_turn_camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/controls_padding"
+                    android:layout_weight="1">
+
+                    <com.way.mat.skyq.views.SquareImageView
+                        android:id="@+id/img_turn_camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_tb_camera_normal" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shadow"
+        android:visibility="gone"
+        android:clickable="true">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+</RelativeLayout>
