@@ -1,4 +1,4 @@
-package com.way.mat.skyq.multiparty;
+package com.way.mat.opentokchat.multiparty;
 
 /**
  * Created by oleh on 02.09.16.

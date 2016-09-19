@@ -1,4 +1,4 @@
-package com.way.mat.skyq.utils;
+package com.way.mat.opentokchat.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.way.mat.skyq.config.Globals;
+import com.way.mat.opentokchat.config.Globals;
 
 /**
  * Created by mpodolsky on 23.05.2016.

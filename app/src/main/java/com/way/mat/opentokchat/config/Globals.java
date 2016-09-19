@@ -1,4 +1,4 @@
-package com.way.mat.skyq.config;
+package com.way.mat.opentokchat.config;
 
 /**
  * Created by matviy on 01.09.16.

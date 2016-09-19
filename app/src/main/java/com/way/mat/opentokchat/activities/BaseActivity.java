@@ -1,11 +1,11 @@
-package com.way.mat.skyq.activities;
+package com.way.mat.opentokchat.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.way.mat.skyq.R;
+import com.way.mat.opentokchat.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

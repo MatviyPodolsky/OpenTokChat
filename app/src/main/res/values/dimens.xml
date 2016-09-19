@@ -10,6 +10,8 @@
     <dimen name="text_medium">13sp</dimen>
     <dimen name="text_large">18sp</dimen>
     <dimen name="text_popup">12sp</dimen>
+    <dimen name="text_room_name">18sp</dimen>
+    <dimen name="text_room_description">15sp</dimen>
 
     <!--splash-->
     <dimen name="splash_bottom_margin">50dp</dimen>
@@ -45,4 +47,8 @@
 
     <!--about-->
     <dimen name="about_padding">33dp</dimen>
+
+    <!--room-->
+    <dimen name="room_height">120dp</dimen>
+
 </resources>

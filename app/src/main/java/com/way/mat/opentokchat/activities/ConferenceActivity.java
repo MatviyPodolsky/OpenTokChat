@@ -1,4 +1,4 @@
-package com.way.mat.skyq.activities;
+package com.way.mat.opentokchat.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,14 +21,14 @@ import android.widget.Toast;
 
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
-import com.way.mat.skyq.R;
-import com.way.mat.skyq.adapters.PopupAdapter;
-import com.way.mat.skyq.config.Globals;
-import com.way.mat.skyq.items.PopupItem;
-import com.way.mat.skyq.multiparty.CallbackSession;
-import com.way.mat.skyq.multiparty.OpenTokSession;
-import com.way.mat.skyq.utils.PermissionsUtil;
-import com.way.mat.skyq.views.MeterView;
+import com.way.mat.opentokchat.R;
+import com.way.mat.opentokchat.adapters.PopupAdapter;
+import com.way.mat.opentokchat.config.Globals;
+import com.way.mat.opentokchat.items.PopupItem;
+import com.way.mat.opentokchat.multiparty.CallbackSession;
+import com.way.mat.opentokchat.multiparty.OpenTokSession;
+import com.way.mat.opentokchat.utils.PermissionsUtil;
+import com.way.mat.opentokchat.views.MeterView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +38,13 @@ import butterknife.BindViews;
 import butterknife.OnClick;
 
 
-public class MainActivity extends BaseActivity implements CallbackSession {
+public class ConferenceActivity extends BaseActivity implements CallbackSession {
 
     //popup
     private List<PopupItem> popupItems = new ArrayList<>();
     //popup end
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = ConferenceActivity.class.getSimpleName();
 
     private OpenTokSession mSession;
     private boolean resumeHasRun = false;
@@ -366,9 +366,9 @@ public class MainActivity extends BaseActivity implements CallbackSession {
                     }
                 }
                 if (isPermissionGranted) {
-                    Toast.makeText(MainActivity.this, "Permissions granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConferenceActivity.this, "Permissions granted!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Permissions not granted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConferenceActivity.this, "Permissions not granted!", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } else {
@@ -417,10 +417,10 @@ public class MainActivity extends BaseActivity implements CallbackSession {
         if (type != null) {
             switch (type) {
                 case USERNAME:
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ConferenceActivity.this, LoginActivity.class));
                     break;
                 case ABOUT:
-                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                    startActivity(new Intent(ConferenceActivity.this, AboutActivity.class));
                     break;
             }
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkyQPrototype</string>
+    <string name="app_name">OpenTokChat</string>
     <string name="action_about">About</string>
     <string name="action_login">Username</string>
     <string name="txtAboveEditLogin">Please <b>enter the name</b> you want others see you</string>
@@ -26,6 +26,7 @@
     <string name="title_login">Username</string>
     <string name="title_about">About</string>
     <string name="title_settings">Settings</string>
+    <string name="title_rooms">Rooms</string>
     <string name="experience_title">"E X P E R I E N C E"</string>
     <string name="watch_together_title">"T H E   W A T C H   T O G E T H E R"</string>
 

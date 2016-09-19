@@ -1,4 +1,4 @@
-package com.way.mat.skyq.adapters;
+package com.way.mat.opentokchat.adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.way.mat.skyq.R;
-import com.way.mat.skyq.items.PopupItem;
+import com.way.mat.opentokchat.R;
+import com.way.mat.opentokchat.items.PopupItem;
 
 import java.util.ArrayList;
 import java.util.List;

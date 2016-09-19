@@ -1,4 +1,4 @@
-package com.way.mat.skyq.multiparty;
+package com.way.mat.opentokchat.multiparty;
 
 import android.content.Context;
 import android.util.Log;

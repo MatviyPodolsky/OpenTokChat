@@ -1,11 +1,11 @@
-package com.way.mat.skyq.activities;
+package com.way.mat.opentokchat.activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.way.mat.skyq.R;
+import com.way.mat.opentokchat.R;
 
 import butterknife.BindView;
 

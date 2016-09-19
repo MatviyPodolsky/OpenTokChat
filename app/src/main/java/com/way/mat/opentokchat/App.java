@@ -1,4 +1,4 @@
-package com.way.mat.skyq;
+package com.way.mat.opentokchat;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,7 +11,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by oleh on 01.09.16.
  */
-public class SQAplication extends Application {
+public class App extends Application {
     private static Context context;
 
     public void onCreate(){
@@ -30,7 +30,7 @@ public class SQAplication extends Application {
     }
 
     public static Context getAppContext() {
-        return SQAplication.context;
+        return App.context;
     }
 
 }

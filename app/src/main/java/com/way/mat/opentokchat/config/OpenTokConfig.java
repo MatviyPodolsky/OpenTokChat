@@ -1,4 +1,4 @@
-package com.way.mat.skyq.config;
+package com.way.mat.opentokchat.config;
 
 public class OpenTokConfig {
 

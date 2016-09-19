@@ -1,4 +1,4 @@
-package com.way.mat.skyq.multiparty;
+package com.way.mat.opentokchat.multiparty;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,9 +17,9 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.SubscriberKit;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.way.mat.skyq.config.OpenTokConfig;
-import com.way.mat.skyq.utils.PrefKeys;
-import com.way.mat.skyq.views.MeterView;
+import com.way.mat.opentokchat.config.OpenTokConfig;
+import com.way.mat.opentokchat.utils.PrefKeys;
+import com.way.mat.opentokchat.views.MeterView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class OpenTokSession extends Session {
     private HashMap<String, OpenTokSubscriber> mSubscriberConnection = new HashMap<String, OpenTokSubscriber>();
 
     public OpenTokSession(final Context context, final CallbackSession pCallbackSession) {
-        super(context, OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID);
+        super(context, OpenTokConfig.API_KEY, Prefs.getString(PrefKeys.SESSION_ID, ""));
         this.mContext = context;
         callbackSession = pCallbackSession;
     }
@@ -97,7 +97,7 @@ public class OpenTokSession extends Session {
 
     public void connect() {
         setPublisher();
-        this.connect(OpenTokConfig.TOKEN);
+        this.connect(Prefs.getString(PrefKeys.TOKEN, ""));
     }
 
     // callbacks

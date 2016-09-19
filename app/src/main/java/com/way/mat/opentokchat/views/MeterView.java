@@ -1,4 +1,4 @@
-package com.way.mat.skyq.views;
+package com.way.mat.opentokchat.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

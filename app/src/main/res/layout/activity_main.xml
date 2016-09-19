@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp" />
 
-    <com.way.mat.skyq.views.SquareImageView
+    <com.way.mat.opentokchat.views.SquareImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.way.mat.skyq.views.SquareImageView
+    <com.way.mat.opentokchat.views.SquareImageView
         android:id="@+id/img_call"
         android:layout_width="@dimen/call_button_size"
         android:layout_height="@dimen/call_button_size"
@@ -214,7 +214,7 @@
                     android:padding="@dimen/controls_padding"
                     android:layout_weight="1">
 
-                    <com.way.mat.skyq.views.MeterView
+                    <com.way.mat.opentokchat.views.MeterView
                         android:id="@+id/img_mute"
                         android:layout_centerInParent="true"
                         android:layout_width="@dimen/controls_height"
@@ -229,7 +229,7 @@
                     android:padding="@dimen/controls_padding"
                     android:layout_weight="1">
 
-                    <com.way.mat.skyq.views.SquareImageView
+                    <com.way.mat.opentokchat.views.SquareImageView
                         android:id="@+id/img_hold"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -246,7 +246,7 @@
                     android:padding="@dimen/controls_padding"
                     android:layout_weight="1">
 
-                    <com.way.mat.skyq.views.SquareImageView
+                    <com.way.mat.opentokchat.views.SquareImageView
                         android:id="@+id/img_volume"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -264,7 +264,7 @@
                     android:padding="@dimen/controls_padding"
                     android:layout_weight="1">
 
-                    <com.way.mat.skyq.views.SquareImageView
+                    <com.way.mat.opentokchat.views.SquareImageView
                         android:id="@+id/img_turn_camera"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.way.mat.skyq.activities;
+package com.way.mat.opentokchat.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
-import com.way.mat.skyq.R;
-import com.way.mat.skyq.utils.PrefKeys;
+import com.way.mat.opentokchat.R;
+import com.way.mat.opentokchat.utils.PrefKeys;
 
 import butterknife.BindView;
 import butterknife.OnClick;

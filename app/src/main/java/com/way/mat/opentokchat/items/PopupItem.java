@@ -1,4 +1,4 @@
-package com.way.mat.skyq.items;
+package com.way.mat.opentokchat.items;
 
 /**
  * Created by matviy on 08.09.16.

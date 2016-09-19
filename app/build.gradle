@@ -15,7 +15,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-def APK_NAME = "SkyQPrototype"
+def APK_NAME = "OpenTokChat"
 def versionMajor = 1
 def versionMinor = 1
 def versionPatch = 0

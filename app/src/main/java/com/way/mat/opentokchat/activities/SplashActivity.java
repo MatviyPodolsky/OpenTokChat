@@ -1,10 +1,10 @@
-package com.way.mat.skyq.activities;
+package com.way.mat.opentokchat.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.way.mat.skyq.R;
+import com.way.mat.opentokchat.R;
 
 /**
  * Created by oleh on 05.09.16.
@@ -27,7 +27,7 @@ public class SplashActivity extends BaseActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, RoomsActivity.class);
                 startActivity(intent);
                 finish();
             }
