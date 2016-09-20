@@ -24,7 +24,7 @@
     <dimen name="popup_top_margin">8dp</dimen>
 
     <!--main activity-->
-    <dimen name="logo_top_margin">115dp</dimen>
+    <dimen name="logo_top_margin">135dp</dimen>
     <dimen name="logo_bot_margin">32dp</dimen>
     <dimen name="main_text_margin">10dp</dimen>
     <dimen name="camera_bot_margin">74dp</dimen>

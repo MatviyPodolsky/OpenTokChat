@@ -6,9 +6,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.way.mat.opentokchat.R;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by matviy on 19.09.16.
@@ -39,8 +39,8 @@ public class RoomsActivity extends BaseActivity {
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
-    @BindView(R.id.settings)
-    ImageButton btnSettings;
+//    @BindView(R.id.settings)
+//    ImageButton btnSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +61,39 @@ public class RoomsActivity extends BaseActivity {
         return R.layout.activity_rooms;
     }
 
-    @OnClick(R.id.settings)
-    public void settingsClick(View v) {
-        if (mPopup != null) {
-            mPopup.show();//showing popup menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_login:
+                startActivity(new Intent(RoomsActivity.this, LoginActivity.class));
+                return true;
+
+            case R.id.action_about:
+                startActivity(new Intent(RoomsActivity.this, AboutActivity.class));
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
     }
+
+//    @OnClick(R.id.settings)
+//    public void settingsClick(View v) {
+//        if (mPopup != null) {
+//            mPopup.show();//showing popup menu
+//        }
+//    }
 
     private void initPopup() {
         popupItems.add(new PopupItem(R.drawable.ic_menu_edit_normal, getString(R.string.action_login), PopupItem.Type.USERNAME));
@@ -76,7 +103,7 @@ public class RoomsActivity extends BaseActivity {
 
         final PopupAdapter adapter = new PopupAdapter(this, popupItems);
 
-        mPopup.setAnchorView(btnSettings);
+//        mPopup.setAnchorView(btnSettings);
         mPopup.setAdapter(adapter);
         mPopup.setWidth(getResources().getDimensionPixelSize(R.dimen.popup_width)); // note: don't use pixels, use a dimen resource
         mPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {

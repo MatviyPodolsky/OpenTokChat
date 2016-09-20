@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/room_height"
     android:id="@+id/root">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/room_height"
         android:layout_height="@dimen/room_height"
+        android:layout_centerVertical="true"
         android:src="@mipmap/ic_launcher"/>
 
     <RelativeLayout
@@ -22,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:textSize="@dimen/text_room_name"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text="Test 1"/>
 
         <TextView
             android:id="@+id/description"
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:text="Description 1"
             android:textSize="@dimen/text_room_description"/>
 
     </RelativeLayout>

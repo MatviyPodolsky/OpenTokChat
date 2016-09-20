@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/logo_top_margin"
         android:layout_marginBottom="@dimen/logo_bot_margin"
-        android:background="@drawable/ic_tv"
+        android:background="@drawable/video_chat"
         android:layout_centerHorizontal="true" />
 
     <TextView
