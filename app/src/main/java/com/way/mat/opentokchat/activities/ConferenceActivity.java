@@ -6,9 +6,11 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.ListPopupWindow;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -21,13 +23,17 @@ import android.widget.Toast;
 
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.way.mat.opentokchat.R;
 import com.way.mat.opentokchat.adapters.PopupAdapter;
 import com.way.mat.opentokchat.config.Globals;
 import com.way.mat.opentokchat.items.PopupItem;
 import com.way.mat.opentokchat.multiparty.CallbackSession;
 import com.way.mat.opentokchat.multiparty.OpenTokSession;
+import com.way.mat.opentokchat.rest.client.RestClient;
+import com.way.mat.opentokchat.rest.models.TokenData;
 import com.way.mat.opentokchat.utils.PermissionsUtil;
+import com.way.mat.opentokchat.utils.PrefKeys;
 import com.way.mat.opentokchat.views.MeterView;
 
 import java.util.ArrayList;
@@ -36,6 +42,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ConferenceActivity extends BaseActivity implements CallbackSession {
@@ -89,10 +98,15 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     @BindViews({R.id.preview2, R.id.preview3, R.id.preview4})
     List<ViewGroup> mPreviews;
 
+    private String mToken = "";
+    private boolean needConnect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (PermissionsUtil.needPermissions(this)) {
@@ -102,6 +116,8 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
 
         initSession();
         initPopup();
+
+        loadToken();
     }
 
     @Override
@@ -277,9 +293,15 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     }
 
     private void doCall() {
-        showProgress();
-        if (mSession != null) {
-            mSession.connect();
+        if (!TextUtils.isEmpty(mToken)) {
+            showProgress();
+            if (mSession != null) {
+                mSession.setToken(mToken);
+                mSession.connect();
+            }
+        } else {
+            needConnect = true;
+            loadToken();
         }
     }
 
@@ -424,5 +446,46 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
                     break;
             }
         }
+    }
+
+    private void loadToken() {
+        showProgress();
+        Call<TokenData> call = RestClient.getApiService().getToken(Prefs.getString(PrefKeys.SESSION_ID, ""));
+        call.enqueue(new Callback<TokenData>() {
+            @Override
+            public void onResponse(Call<TokenData> call, Response<TokenData> response) {
+                if (response != null && response.body() != null && !TextUtils.isEmpty(response.body().getToken())) {
+                    onTokenObtained(response.body().getToken());
+                } else {
+                    onTokenError();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenData> call, Throwable t) {
+                onTokenError();
+            }
+        });
+    }
+
+    private void onTokenObtained(String token) {
+        hideProgress();
+        mToken = token;
+        if (needConnect) {
+            needConnect = false;
+            showProgress();
+            if (mSession != null) {
+                mSession.setToken(mToken);
+                mSession.connect();
+            } else {
+                hideProgress();
+                Toast.makeText(ConferenceActivity.this, "null session", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void onTokenError() {
+        hideProgress();
+        Toast.makeText(ConferenceActivity.this, "Error loading token", Toast.LENGTH_SHORT).show();
     }
 }

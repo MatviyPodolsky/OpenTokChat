@@ -36,4 +36,7 @@
     <string name="login_info_3">YOU</string>
     <string name="login_info_4">WANT OTHERS SEE YOU</string>
 
+    <!--rooms-->
+    <string name="no_rooms">No rooms</string>
+
 </resources>

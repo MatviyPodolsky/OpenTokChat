@@ -9,7 +9,7 @@ public class OpenTokConfig {
     // Replace with a generated token (from the dashboard or using an OpenTok server SDK)
     public static final String TOKEN = "T1==cGFydG5lcl9pZD00NTY0NDY5MiZzaWc9YTk4MDczODI2MThjYjMzYTFhNWQwNDQ3ZGNhNjUwODFlYWY1ZDgyZDpzZXNzaW9uX2lkPTFfTVg0ME5UWTBORFk1TW41LU1UUTNNemMzTXpReE16WXlPSDVNWm5GbFEzbE5XRk5oZGxKQ01WVm5XRXhwWkRSYVJraC1mZyZjcmVhdGVfdGltZT0xNDczNzczNDcyJm5vbmNlPTAuNzQ5MDIzNTY4NTgzNjUyNCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2MzY1NDcy";
     // Replace with your OpenTok API key
-    public static final String API_KEY = "45644692";
+    public static final String API_KEY = "45645882";
 
     // Subscribe to a stream published by this client. Set to false to subscribe
     // to other clients' streams only.

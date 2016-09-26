@@ -43,10 +43,12 @@ public class OpenTokSession extends Session {
 
     private boolean isVolumeOff = false;
 
+    private String mToken = "";
+
     // Players status
     private ArrayList<OpenTokSubscriber> mSubscribers = new ArrayList<>();
-    private HashMap<Stream, OpenTokSubscriber> mSubscriberStream = new HashMap<Stream, OpenTokSubscriber>();
-    private HashMap<String, OpenTokSubscriber> mSubscriberConnection = new HashMap<String, OpenTokSubscriber>();
+    private HashMap<Stream, OpenTokSubscriber> mSubscriberStream = new HashMap<>();
+    private HashMap<String, OpenTokSubscriber> mSubscriberConnection = new HashMap<>();
 
     public OpenTokSession(final Context context, final CallbackSession pCallbackSession) {
         super(context, OpenTokConfig.API_KEY, Prefs.getString(PrefKeys.SESSION_ID, ""));
@@ -91,13 +93,18 @@ public class OpenTokSession extends Session {
         mUserNames.addAll(views);
     }
 
+    public void setToken(String token) {
+        this.mToken = token;
+    }
+
     public void setCameraListener(Publisher.CameraListener listener) {
         this.mCameraListener = listener;
     }
 
     public void connect() {
         setPublisher();
-        this.connect(Prefs.getString(PrefKeys.TOKEN, ""));
+//        this.connect(Prefs.getString(PrefKeys.TOKEN, ""));
+        this.connect(mToken);
     }
 
     // callbacks

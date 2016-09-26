@@ -1,6 +1,8 @@
 package com.way.mat.opentokchat.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.way.mat.opentokchat.R;
-import com.way.mat.opentokchat.items.Room;
+import com.way.mat.opentokchat.rest.models.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,8 @@ import butterknife.ButterKnife;
  */
 public class RoomsAdapter extends RecyclerView.Adapter<PeerHolder> {
 
+    private Context mContext;
+
     private List<Room> rooms;
     private Callback mCallback;
 
@@ -29,7 +34,8 @@ public class RoomsAdapter extends RecyclerView.Adapter<PeerHolder> {
         void onRoomSelected(Room room);
     }
 
-    public RoomsAdapter(List<Room> rooms) {
+    public RoomsAdapter(Context context, List<Room> rooms) {
+        mContext = context;
         this.rooms = new ArrayList<>();
         if (rooms != null) {
             this.rooms.addAll(rooms);
@@ -64,6 +70,15 @@ public class RoomsAdapter extends RecyclerView.Adapter<PeerHolder> {
         if (room != null) {
             holder.name.setText(room.getName());
             holder.description.setText(room.getDescription());
+
+            //loading thumbnail
+            if (!TextUtils.isEmpty(room.getImageUrl())) {
+                Picasso.with(mContext)
+                        .load(room.getImageUrl())
+                        .centerInside()
+                        .fit()
+                        .into(holder.icon);
+            }
         }
 
         holder.root.setOnClickListener(new View.OnClickListener() {
