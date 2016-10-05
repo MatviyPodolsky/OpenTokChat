@@ -1,10 +1,11 @@
 package com.way.mat.opentokchat.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -22,13 +23,26 @@ public class LoginActivity extends BaseActivity {
     private static final String LOGTAG = LoginActivity.class.getSimpleName();
 
     @BindView(R.id.saveLogin)
-    AppCompatButton saveLogin;
+    ImageButton saveLogin;
     @BindView(R.id.edLogin)
     EditText login;
+
+    private boolean isFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isFirstTime = extras.getBoolean("first", false);
+        }
+
+        if (isFirstTime) {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+        }
 
         setTitle(R.string.title_login);
 
@@ -80,6 +94,13 @@ public class LoginActivity extends BaseActivity {
             }
 
             Toast.makeText(this, "Login saved", Toast.LENGTH_SHORT).show();
+            if (isFirstTime) {
+                startActivity(new Intent(LoginActivity.this, RoomsActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
             finish();
         }
     }

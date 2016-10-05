@@ -27,7 +27,8 @@ public class SplashActivity extends BaseActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, RoomsActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                intent.putExtra("first", true);
                 startActivity(intent);
                 finish();
             }

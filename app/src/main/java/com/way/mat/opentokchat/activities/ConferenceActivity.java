@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.ListPopupWindow;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,11 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.ListPopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -31,7 +31,9 @@ import com.way.mat.opentokchat.items.PopupItem;
 import com.way.mat.opentokchat.multiparty.CallbackSession;
 import com.way.mat.opentokchat.multiparty.OpenTokSession;
 import com.way.mat.opentokchat.rest.client.RestClient;
-import com.way.mat.opentokchat.rest.models.TokenData;
+import com.way.mat.opentokchat.rest.models.Room;
+import com.way.mat.opentokchat.rest.responses.GetTokenResponse;
+import com.way.mat.opentokchat.utils.ImageUrlUtils;
 import com.way.mat.opentokchat.utils.PermissionsUtil;
 import com.way.mat.opentokchat.utils.PrefKeys;
 import com.way.mat.opentokchat.views.MeterView;
@@ -51,9 +53,10 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
 
     //popup
     private List<PopupItem> popupItems = new ArrayList<>();
+    private ListPopupWindow mPopup;
     //popup end
 
-    private static final String TAG = ConferenceActivity.class.getSimpleName();
+    private static final String TAG = "ConferenceActivity";
 
     private OpenTokSession mSession;
     private boolean resumeHasRun = false;
@@ -63,7 +66,6 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     private boolean isHeld = false;
 
 //    private PopupMenu mPopup;
-    private ListPopupWindow mPopup;
 //    private boolean isPreviewCamera = true;
 
     @BindView(R.id.settings)
@@ -90,13 +92,27 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     RelativeLayout rlButtons;
     @BindView(R.id.root)
     LinearLayout llPreviews;
+    @BindView(R.id.tv_start_watching)
+    TextView tvStartWatching;
+    @BindView(R.id.rl_description)
+    RelativeLayout rlDescription;
+    @BindView(R.id.description)
+    TextView tvDescription;
+    @BindView(R.id.title)
+    TextView tvTitle;
+    @BindView(R.id.logo)
+    ImageView imgLogo;
 
-    @BindViews({R.id.user_name_1, R.id.user_name_2})
+    @BindViews({R.id.user_name_2, R.id.user_name_3, R.id.user_name_4, R.id.user_name_5, R.id.user_name_6, R.id.user_name_7})
     List<TextView> mUserNames;
-    @BindViews({R.id.pb_volume_1, R.id.pb_volume_2})
-    List<ProgressBar> mAudioLevels;
-    @BindViews({R.id.preview2, R.id.preview3, R.id.preview4})
+//    @BindViews({R.id.pb_volume_1, R.id.pb_volume_2})
+//    List<ProgressBar> mAudioLevels;
+    @BindViews({R.id.preview2, R.id.preview3, R.id.preview4, R.id.preview5, R.id.preview6, R.id.preview7})
     List<ViewGroup> mPreviews;
+    @BindViews({R.id.ll_top, R.id.ll_mid})
+    List<ViewGroup> mPreviewLayouts;
+    @BindViews({R.id.container2, R.id.container3, R.id.container4, R.id.container5, R.id.container6, R.id.container7})
+    List<ViewGroup> mPreviewContainers;
 
     private String mToken = "";
     private boolean needConnect;
@@ -117,7 +133,21 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         initSession();
         initPopup();
 
+        Room room = Room.create(getIntent().getExtras().getString("room"));
+        setTitle(room.getName());
+        tvTitle.setText(room.getName());
+        tvDescription.setText(room.getDescription());
+        final String realUrl = ImageUrlUtils.getRealUrl(room.getImageUrl());
+        Log.d(TAG, "url: " + realUrl);
+        Glide.with(this).load(realUrl).into(imgLogo);
+
+//        setTitle("test");
+//        tvTitle.setText("test");
+//        tvDescription.setText("description");
+//        Picasso.with(this).load(R.mipmap.ic_launcher).fit().centerInside().into(imgLogo);
+
         loadToken();
+//        mToken = OpenTokConfig.TOKEN;
     }
 
     @Override
@@ -140,6 +170,7 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
                 mSession.onResume();
             }
         }
+
     }
 
     @Override
@@ -180,7 +211,9 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
             mSession = new OpenTokSession(this, this);
             mSession.setPreviewView(mPreview);
             mSession.setPlayersViewContainers(mPreviews);
-            mSession.setAudioLevelViews(mAudioLevels);
+            mSession.setLayouts(mPreviewLayouts);
+            mSession.setContainers(mPreviewContainers);
+//            mSession.setAudioLevelViews(mAudioLevels);
             mSession.setUsernameViews(mUserNames);
 
             // Set meter view icons for publisher
@@ -204,6 +237,22 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         }
     }
 
+    private void goFullScreen() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            Window w = getWindow(); // in Activity's onCreate() for instance
+//            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        }
+    }
+
+    private void leaveFullScreen() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            Window w = getWindow(); // in Activity's onCreate() for instance
+//            w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        }
+    }
+
     @OnClick(R.id.img_call)
     public void toggleCall(View v) {
         if (isCalling) {
@@ -217,10 +266,10 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     public void toggleHold(View v) {
         if (isHeld) {
             unhold();
-            imgHold.setImageResource(R.drawable.ic_tb_view_normal);
+            imgHold.setImageResource(R.drawable.ic_view_selector);
         } else {
             hold();
-            imgHold.setImageResource(R.drawable.ic_tb_view_off);
+            imgHold.setImageResource(R.drawable.ic_view_off_selector);
         }
     }
 
@@ -232,8 +281,8 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     }
 
     private void initPopup() {
-        popupItems.add(new PopupItem(R.drawable.ic_menu_edit_normal, getString(R.string.action_login), PopupItem.Type.USERNAME));
-        popupItems.add(new PopupItem(R.drawable.ic_menu_list_normal, getString(R.string.action_about), PopupItem.Type.ABOUT));
+        popupItems.add(new PopupItem(R.drawable.ic_submenu_username, getString(R.string.action_login), PopupItem.Type.USERNAME));
+        popupItems.add(new PopupItem(R.drawable.ic_submenu_about, getString(R.string.action_about), PopupItem.Type.ABOUT));
 
         mPopup = new ListPopupWindow(this);
 
@@ -263,32 +312,38 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     public void toggleVolume(View v) {
         if (isVolumeOn) {
             turnVolumeOff();
-            imgVolume.setImageResource(R.drawable.ic_tb_volume_off);
+            imgVolume.setImageResource(R.drawable.ic_volume_off_selector);
         } else {
             turnVolumeOn();
-            imgVolume.setImageResource(R.drawable.ic_tb_volume_normal);
+            imgVolume.setImageResource(R.drawable.ic_volume_selector);
         }
     }
 
     private void updateControlsUI() {
         if (isCalling) {
-            imgCall.setImageResource(R.drawable.ic_stop);
+            goFullScreen();
+            imgCall.setImageResource(R.drawable.btn_large_stop_watching);
             rlButtons.setVisibility(View.VISIBLE);
+            tvStartWatching.setVisibility(View.GONE);
+            getSupportActionBar().hide();
         } else {
-            imgCall.setImageResource(R.drawable.ic_camera);
+            leaveFullScreen();
+            imgCall.setImageResource(R.drawable.btn_large_start_watching);
             rlButtons.setVisibility(View.GONE);
+            tvStartWatching.setVisibility(View.VISIBLE);
+            getSupportActionBar().show();
         }
 
         if (isHeld) {
-            imgHold.setImageResource(R.drawable.ic_tb_view_off);
+            imgHold.setImageResource(R.drawable.ic_view_off_selector);
         } else {
-            imgHold.setImageResource(R.drawable.ic_tb_view_normal);
+            imgHold.setImageResource(R.drawable.ic_view_selector);
         }
 
         if (isVolumeOn) {
-            imgVolume.setImageResource(R.drawable.ic_tb_volume_normal);
+            imgVolume.setImageResource(R.drawable.ic_volume_selector);
         } else {
-            imgVolume.setImageResource(R.drawable.ic_tb_volume_off);
+            imgVolume.setImageResource(R.drawable.ic_volume_off_selector);
         }
     }
 
@@ -410,6 +465,7 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         llPreviews.setVisibility(View.VISIBLE);
         mPreview.setVisibility(View.VISIBLE);
         btnSettings.setVisibility(View.GONE);
+        rlDescription.setVisibility(View.GONE);
     }
 
     @Override
@@ -420,7 +476,7 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
     @Override
     public void onSessionError(final String error) {
         invalidateDisconnection();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     private void invalidateDisconnection() {
@@ -433,6 +489,7 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         btnSettings.setVisibility(View.VISIBLE);
         mPreview.setVisibility(View.GONE);
         llPreviews.setVisibility(View.GONE);
+        rlDescription.setVisibility(View.VISIBLE);
     }
 
     private void launchActivity(PopupItem.Type type) {
@@ -450,19 +507,19 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
 
     private void loadToken() {
         showProgress();
-        Call<TokenData> call = RestClient.getApiService().getToken(Prefs.getString(PrefKeys.SESSION_ID, ""));
-        call.enqueue(new Callback<TokenData>() {
+        Call<GetTokenResponse> call = RestClient.getApiService().getToken(Prefs.getString(PrefKeys.SESSION_ID, ""));
+        call.enqueue(new Callback<GetTokenResponse>() {
             @Override
-            public void onResponse(Call<TokenData> call, Response<TokenData> response) {
-                if (response != null && response.body() != null && !TextUtils.isEmpty(response.body().getToken())) {
-                    onTokenObtained(response.body().getToken());
+            public void onResponse(Call<GetTokenResponse> call, Response<GetTokenResponse> response) {
+                if (response != null && response.body() != null && response.body().getResponse() != null && !TextUtils.isEmpty(response.body().getResponse().getToken())) {
+                    onTokenObtained(response.body().getResponse().getToken());
                 } else {
                     onTokenError();
                 }
             }
 
             @Override
-            public void onFailure(Call<TokenData> call, Throwable t) {
+            public void onFailure(Call<GetTokenResponse> call, Throwable t) {
                 onTokenError();
             }
         });
@@ -488,4 +545,5 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         hideProgress();
         Toast.makeText(ConferenceActivity.this, "Error loading token", Toast.LENGTH_SHORT).show();
     }
+
 }

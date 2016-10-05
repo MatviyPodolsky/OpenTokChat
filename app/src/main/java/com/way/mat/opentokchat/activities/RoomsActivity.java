@@ -5,18 +5,22 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.way.mat.opentokchat.R;
+import com.way.mat.opentokchat.adapters.PopupAdapter;
 import com.way.mat.opentokchat.adapters.RoomsAdapter;
+import com.way.mat.opentokchat.items.PopupItem;
 import com.way.mat.opentokchat.rest.client.RestClient;
 import com.way.mat.opentokchat.rest.models.Room;
+import com.way.mat.opentokchat.rest.responses.RoomsResponse;
 import com.way.mat.opentokchat.utils.PrefKeys;
 import com.way.mat.opentokchat.views.SimpleDividerItemDecoration;
 
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +37,14 @@ import retrofit2.Response;
  * Created by matviy on 19.09.16.
  */
 public class RoomsActivity extends BaseActivity {
+
+    //popup
+    private List<PopupItem> popupItems = new ArrayList<>();
+    private ListPopupWindow mPopup;
+
+    @BindView(R.id.settings)
+    ImageButton btnSettings;
+    //popup end
 
     private RoomsAdapter mAdapter;
     private List<Room> mRooms = new ArrayList<>();
@@ -57,8 +70,44 @@ public class RoomsActivity extends BaseActivity {
         }
 
         initRecycler();
+        initPopup();
 
         loadRooms();
+    }
+
+    @OnClick(R.id.settings)
+    public void settingsClick(View v) {
+        if (mPopup != null) {
+            mPopup.show();//showing popup menu
+        }
+    }
+
+    @OnClick(R.id.fab_create_room)
+    public void createRoom() {
+        startActivity(new Intent(RoomsActivity.this, CreateRoomActivity.class));
+    }
+
+    private void initPopup() {
+        popupItems.add(new PopupItem(R.drawable.ic_submenu_username, getString(R.string.action_login), PopupItem.Type.USERNAME));
+        popupItems.add(new PopupItem(R.drawable.ic_submenu_about, getString(R.string.action_about), PopupItem.Type.ABOUT));
+
+        mPopup = new ListPopupWindow(this);
+
+        final PopupAdapter adapter = new PopupAdapter(this, popupItems);
+
+        mPopup.setAnchorView(btnSettings);
+        mPopup.setAdapter(adapter);
+        mPopup.setWidth(getResources().getDimensionPixelSize(R.dimen.popup_width)); // note: don't use pixels, use a dimen resource
+        mPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                launchActivity(popupItems.get(i).getType());
+                if (mPopup != null) {
+                    mPopup.dismiss();
+                }
+            }
+        }); // the callback for when a list item is selected
+
     }
 
     @Override
@@ -66,39 +115,7 @@ public class RoomsActivity extends BaseActivity {
         return R.layout.activity_rooms;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.action_login:
-                startActivity(new Intent(RoomsActivity.this, LoginActivity.class));
-                return true;
-
-            case R.id.action_about:
-                startActivity(new Intent(RoomsActivity.this, AboutActivity.class));
-                return true;
-
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
-
-
     private void initRecycler() {
-//        mRooms.add(new Room("Room 1", "Description 1", "1_MX40NTY0NDY5Mn5-MTQ3NDI5NDQyMTY0OH5weXlBRU5LS2pkdVc0aWxQM2dxNGtNTjV-fg", "T1==cGFydG5lcl9pZD00NTY0NDY5MiZzaWc9MzMxZDc1Mjg2ZTE2YjcyYmZhMGU3NmJlODEyNjJlYTYyZDllZWYwMTpzZXNzaW9uX2lkPTFfTVg0ME5UWTBORFk1TW41LU1UUTNOREk1TkRReU1UWTBPSDV3ZVhsQlJVNUxTMnBrZFZjMGFXeFFNMmR4Tkd0TlRqVi1mZyZjcmVhdGVfdGltZT0xNDc0Mjk0NDI5Jm5vbmNlPTAuNzQwOTQ2ODU5ODE5ODE0NiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2ODg2NDI5", "http://www.designofsignage.com/application/symbol/building/image/600x600/meeting-room.jpg"));
-//        mRooms.add(new Room("Room 2", "Description 2", "1_MX40NTY0NDY5Mn5-MTQ3NDI5NDQ0MjkzMH5BMm1LTHFwelkyT0NPQUY3Qm9JQi8xSVF-fg", "T1==cGFydG5lcl9pZD00NTY0NDY5MiZzaWc9NTQ4MGFjNzU4NDZiMWZiZTNkMGViNDMzMjVlODJlNmRjM2RiOTdmMTpzZXNzaW9uX2lkPTFfTVg0ME5UWTBORFk1TW41LU1UUTNOREk1TkRRME1qa3pNSDVCTW0xTFRIRndlbGt5VDBOUFFVWTNRbTlKUWk4eFNWRi1mZyZjcmVhdGVfdGltZT0xNDc0Mjk0NDQ5Jm5vbmNlPTAuMTMyMjU3NzcwNTE0MTE1NyZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2ODg2NDQ4", "http://www.digitaldeskapp.com/wp-content/uploads/2013/10/DD-Icon-Video.png"));
-//        mRooms.add(new Room("Room 3", "Description 3", "1_MX40NTY0NDY5Mn5-MTQ3NDI5NDQ2MTY5Mn5JVWF4MTIxd2xHczdyZXJnTmVUaDQyYkh-fg", "T1==cGFydG5lcl9pZD00NTY0NDY5MiZzaWc9ZGRkNDgyYTNkYzBkOGU4NjU2NzBkMDVlZDg5ZjhlYWE0MTA2Y2IyZDpzZXNzaW9uX2lkPTFfTVg0ME5UWTBORFk1TW41LU1UUTNOREk1TkRRMk1UWTVNbjVKVldGNE1USXhkMnhIY3pkeVpYSm5UbVZVYURReVlraC1mZyZjcmVhdGVfdGltZT0xNDc0Mjk0NDY4Jm5vbmNlPTAuNjMzOTM1MjM3NTM2MjA2OCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2ODg2NDY3", "http://files.softicons.com/download/application-icons/ichat-emoticon-icons-by-taylor-carrigan/png/512x512/iChat%20Video%20Bubble.png"));
-
         mAdapter = new RoomsAdapter(this, mRooms);
         mAdapter.setCallback(new RoomsAdapter.Callback() {
             @Override
@@ -107,6 +124,7 @@ public class RoomsActivity extends BaseActivity {
                     Prefs.putString(PrefKeys.SESSION_ID, room.getSessionId());
 //                    Prefs.putString(PrefKeys.TOKEN, room.getToken());
                     Intent intent = new Intent(RoomsActivity.this, ConferenceActivity.class);
+                    intent.putExtra("room", room.serialize());
                     startActivity(intent);
                 }
             }
@@ -129,13 +147,13 @@ public class RoomsActivity extends BaseActivity {
     private void loadRooms() {
         showLoading();
 
-        Call<List<Room>> call = RestClient.getApiService().getRooms();
-        call.enqueue(new Callback<List<Room>>() {
+        Call<RoomsResponse> call = RestClient.getApiService().getRooms();
+        call.enqueue(new Callback<RoomsResponse>() {
             @Override
-            public void onResponse(Call<List<Room>> call, Response<List<Room>> response) {
-                if (mRooms != null && response != null && response.body() != null && !response.body().isEmpty()) {
+            public void onResponse(Call<RoomsResponse> call, Response<RoomsResponse> response) {
+                if (mRooms != null && response != null && response.body() != null && response.body().isSuccessful() && !response.body().getResponse().isEmpty()) {
                     mRooms.clear();
-                    mRooms.addAll(response.body());
+                    mRooms.addAll(response.body().getResponse());
                     if (mRooms.size() > 0) {
                         hideNoRooms();
                     } else {
@@ -143,13 +161,13 @@ public class RoomsActivity extends BaseActivity {
                     }
                     mAdapter.setItems(mRooms);
                 } else {
-                    Toast.makeText(RoomsActivity.this, "empty response", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RoomsActivity.this, "Empty response", Toast.LENGTH_SHORT).show();
                 }
                 hideLoading();
             }
 
             @Override
-            public void onFailure(Call<List<Room>> call, Throwable t) {
+            public void onFailure(Call<RoomsResponse> call, Throwable t) {
                 Toast.makeText(RoomsActivity.this, "Error loading rooms", Toast.LENGTH_SHORT).show();
                 hideLoading();
             }
@@ -185,6 +203,19 @@ public class RoomsActivity extends BaseActivity {
         }
         if (mRecycler != null) {
             mRecycler.setEnabled(true);
+        }
+    }
+
+    private void launchActivity(PopupItem.Type type) {
+        if (type != null) {
+            switch (type) {
+                case USERNAME:
+                    startActivity(new Intent(RoomsActivity.this, LoginActivity.class));
+                    break;
+                case ABOUT:
+                    startActivity(new Intent(RoomsActivity.this, AboutActivity.class));
+                    break;
+            }
         }
     }
 

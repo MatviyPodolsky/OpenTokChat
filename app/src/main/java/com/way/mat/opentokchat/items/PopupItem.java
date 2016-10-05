@@ -24,10 +24,6 @@ public class PopupItem {
         return icon;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
     public String getTitle() {
         return title;
     }

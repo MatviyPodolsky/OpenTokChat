@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.way.mat.opentokchat.R;
 import com.way.mat.opentokchat.rest.models.Room;
 
@@ -73,10 +73,14 @@ public class RoomsAdapter extends RecyclerView.Adapter<PeerHolder> {
 
             //loading thumbnail
             if (!TextUtils.isEmpty(room.getImageUrl())) {
-                Picasso.with(mContext)
+//                Picasso.with(mContext)
+//                        .load(room.getImageUrl())
+//                        .centerInside()
+//                        .fit()
+//                        .into(holder.icon);
+                Glide.with(mContext)
                         .load(room.getImageUrl())
-                        .centerInside()
-                        .fit()
+                        .fitCenter()
                         .into(holder.icon);
             }
         }

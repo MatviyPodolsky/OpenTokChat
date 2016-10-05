@@ -5,11 +5,11 @@ public class OpenTokConfig {
     // *** Fill the following variables using your own Project info from the OpenTok dashboard  ***
     // ***                      https://dashboard.tokbox.com/projects                           ***
     // Replace with a generated Session ID
-    public static final String SESSION_ID = "1_MX40NTY0NDY5Mn5-MTQ3Mzc3MzQxMzYyOH5MZnFlQ3lNWFNhdlJCMVVnWExpZDRaRkh-fg";
+    public static final String SESSION_ID = "2_MX40NTY5NjcyMn5-MTQ3NTU4MjgyNzUwMX5VRi9GTjY0L2t6cUM2d2NNc1d3Qnh2UWl-fg";
     // Replace with a generated token (from the dashboard or using an OpenTok server SDK)
-    public static final String TOKEN = "T1==cGFydG5lcl9pZD00NTY0NDY5MiZzaWc9YTk4MDczODI2MThjYjMzYTFhNWQwNDQ3ZGNhNjUwODFlYWY1ZDgyZDpzZXNzaW9uX2lkPTFfTVg0ME5UWTBORFk1TW41LU1UUTNNemMzTXpReE16WXlPSDVNWm5GbFEzbE5XRk5oZGxKQ01WVm5XRXhwWkRSYVJraC1mZyZjcmVhdGVfdGltZT0xNDczNzczNDcyJm5vbmNlPTAuNzQ5MDIzNTY4NTgzNjUyNCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2MzY1NDcy";
+    public static final String TOKEN = "T1==cGFydG5lcl9pZD00NTY5NjcyMiZzaWc9NmEyNDBkODhhMGI2NTQyZDc5Njk3Njg2YjNlYzlkY2ExMzg3MWUzMDpzZXNzaW9uX2lkPTJfTVg0ME5UWTVOamN5TW41LU1UUTNOVFU0TWpneU56VXdNWDVWUmk5R1RqWTBMMnQ2Y1VNMmQyTk5jMWQzUW5oMlVXbC1mZyZjcmVhdGVfdGltZT0xNDc1NTgyODQ1Jm5vbmNlPTAuOTA2Njk0NDg3OTAxNDA0NSZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDc2MTg3NjQ1";
     // Replace with your OpenTok API key
-    public static final String API_KEY = "45645882";
+    public static final String API_KEY = "45696722";
 
     // Subscribe to a stream published by this client. Set to false to subscribe
     // to other clients' streams only.

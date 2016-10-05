@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2b7cf7</color>
-    <color name="colorPrimaryDark">#2060c1</color>
-    <color name="colorAccent">#2b7cf7</color>
-    <color name="colorAccentDark">#2b7cf7</color>
+    <color name="colorPrimary">#dd1228</color>
+    <color name="colorPrimaryDark">#dd1228</color>
+    <color name="colorAccent">#dd1228</color>
+    <color name="colorAccentDark">#dd1228</color>
 
     <color name="grey">#363636</color>
+    <color name="text_color">#3c3c3c</color>
     <color name="action_bar_title">#ffffff</color>
     <color name="dark_grey">#282828</color>
     <color name="trans_dark_grey">#80282828</color>
@@ -19,6 +20,7 @@
     <color name="color0_gradient">#ff98CE00</color>
     <color name="color1_gradient">#8098CE00</color>
     <color name="shadow">#44000000</color>
+    <color name="dark_shadow">#88000000</color>
     <color name="controls_shadow">#44000000</color>
 
 

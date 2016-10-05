@@ -8,6 +8,7 @@
 
     <!--text sizes-->
     <dimen name="text_medium">13sp</dimen>
+    <dimen name="text_description">17sp</dimen>
     <dimen name="text_large">18sp</dimen>
     <dimen name="text_popup">12sp</dimen>
     <dimen name="text_room_name">22sp</dimen>
@@ -43,7 +44,7 @@
     <dimen name="username_drawable_padding">24dp</dimen>
     <dimen name="confirm_height">54dp</dimen>
     <dimen name="confirm_width">118dp</dimen>
-    <dimen name="confirm_bot_margin">126dp</dimen>
+    <dimen name="confirm_bot_margin">60dp</dimen>
 
     <!--about-->
     <dimen name="about_padding">33dp</dimen>

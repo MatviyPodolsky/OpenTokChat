@@ -1,11 +1,13 @@
 package com.way.mat.opentokchat.rest.models;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import com.way.mat.opentokchat.rest.responses.BaseResponse;
 
 /**
  * Created by matviy on 19.09.16.
  */
-public class Room {
+public class Room extends BaseResponse {
 
     @Expose
     String name;
@@ -64,5 +66,13 @@ public class Room {
 
     public void setNumberOfSubscribers(int numberOfSubscribers) {
         this.numberOfSubscribers = numberOfSubscribers;
+    }
+
+    public static Room create(String json) {
+        return new Gson().fromJson(json, Room.class);
+    }
+
+    public String serialize() {
+        return new Gson().toJson(this);
     }
 }

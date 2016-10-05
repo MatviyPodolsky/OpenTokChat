@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.opentok.android.PublisherKit;
 import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.SubscriberKit;
+import com.opentok.android.VideoUtils;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.way.mat.opentokchat.config.OpenTokConfig;
 import com.way.mat.opentokchat.utils.PrefKeys;
@@ -30,10 +30,12 @@ public class OpenTokSession extends Session {
     private Context mContext;
 
     // Interface
-    private List<ViewGroup> mPreviews;
-    private ViewGroup mPreview;
-    private List<ProgressBar> mAudioLevels;
+    private List<ViewGroup> mPreviews; // framelayouts for displaying subscribers video
+    private List<ViewGroup> mContainers; //relative layouts which contain preview frame and username
+    private List<ViewGroup> mLayouts; // linear layouts for composing different count of subscribers on the screen
     private List<TextView> mUserNames;
+    private ViewGroup mPreview;
+//    private List<ProgressBar> mAudioLevels;
     final private CallbackSession callbackSession;
     private MeterView mPublisherMeter;
 
@@ -52,6 +54,7 @@ public class OpenTokSession extends Session {
 
     public OpenTokSession(final Context context, final CallbackSession pCallbackSession) {
         super(context, OpenTokConfig.API_KEY, Prefs.getString(PrefKeys.SESSION_ID, ""));
+//        super(context, OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID);
         this.mContext = context;
         callbackSession = pCallbackSession;
     }
@@ -66,8 +69,18 @@ public class OpenTokSession extends Session {
         this.mPreviews.addAll(containers);
     }
 
+    public void setContainers(List<ViewGroup> containers) {
+        this.mContainers = new ArrayList<>();
+        this.mContainers.addAll(containers);
+    }
+
+    public void setLayouts(List<ViewGroup> layouts) {
+        this.mLayouts = new ArrayList<>();
+        this.mLayouts.addAll(layouts);
+    }
+
     private void setPublisher() {
-        mPublisher = new Publisher(mContext, getCurrentPublishName());
+        mPublisher = new Publisher(mContext, getCurrentPublishName(), Publisher.CameraCaptureResolution.LOW, Publisher.CameraCaptureFrameRate.FPS_1);
 
         // Add video preview
         final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
@@ -83,10 +96,10 @@ public class OpenTokSession extends Session {
         this.mPublisherMeter = meterView;
     }
 
-    public void setAudioLevelViews(List<ProgressBar> views) {
-        this.mAudioLevels = new ArrayList<>();
-        mAudioLevels.addAll(views);
-    }
+//    public void setAudioLevelViews(List<ProgressBar> views) {
+//        this.mAudioLevels = new ArrayList<>();
+//        mAudioLevels.addAll(views);
+//    }
 
     public void setUsernameViews(List<TextView> views) {
         this.mUserNames = new ArrayList<>();
@@ -146,16 +159,20 @@ public class OpenTokSession extends Session {
         if (mSubscribers != null) {
 
             final OpenTokSubscriber p = new OpenTokSubscriber(mContext, stream);
+            p.setUserId(p.getName());
+
+            p.setPreferredFrameRate(5);
+            p.setPreferredResolution(new VideoUtils.Size(200, 200));
 
             // we can use connection data to obtain each user id
             p.setUserId(stream.getConnection().getData());
 
-            p.setSubscribeToVideo(false);
+            p.setSubscribeToVideo(true);
             p.setSubscribeToAudio(!isVolumeOff);
             //Subscribe only for first 2 users in room
-            if (mSubscribers.size() < 3) {
+//            if (mSubscribers.size() < 4) {
                 this.subscribe(p);
-            }
+//            }
 
             p.setAudioLevelListener(new SubscriberKit.AudioLevelListener() {
                 @Override
@@ -200,21 +217,24 @@ public class OpenTokSession extends Session {
             vg.removeAllViews();
         }
 
-        for (int i = 0; i < mSubscribers.size(); i++) {
+        for (int i = 0; i < Math.min(mSubscribers.size(), mPreviews.size()); i++) {
             OpenTokSubscriber s = mSubscribers.get(i);
-            ViewGroup viewGroup = mPreviews.get(i);
-            viewGroup.setVisibility(View.VISIBLE);
-            viewGroup.addView(s.getView());
+            mPreviews.get(i).addView(s.getView());
+            mUserNames.get(i).setVisibility(View.VISIBLE);
+            mContainers.get(i).setVisibility(View.VISIBLE);
         }
 
         for (int i = mSubscribers.size(); i < mPreviews.size(); i++) {
-            mPreviews.get(i).setVisibility(View.GONE);
+            mUserNames.get(i).setVisibility(View.GONE);
+            mContainers.get(i).setVisibility(View.GONE);
         }
+
+        changeLayoutsVisibility(mSubscribers.size());
     }
 
     private void updateSubscribers() {
         final int size = mSubscribers.size();
-        final int maxUsersInRoom = 2;
+        final int maxUsersInRoom = 7;
 
         final int min = Math.min(mSubscribers.size(), maxUsersInRoom);
 
@@ -224,29 +244,28 @@ public class OpenTokSession extends Session {
             customSubscriber.setSubscribeToAudio(!isVolumeOff);
             customSubscriber.setSubscribeToVideo(true);
 
-            TextView tv = mUserNames.get(i);
-            customSubscriber.setUsernameView(tv);
-            tv.setVisibility(View.VISIBLE);
+            customSubscriber.setUsernameView(mUserNames.get(i));
+//            tv.setVisibility(View.VISIBLE);
 
-            ProgressBar pb = mAudioLevels.get(i);
-            customSubscriber.setAudioLevelView(pb);
-            pb.setVisibility(View.VISIBLE);
+//            ProgressBar pb = mAudioLevels.get(i);
+//            customSubscriber.setAudioLevelView(pb);
+//            pb.setVisibility(View.VISIBLE);
 
             customSubscriber.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
         }
 
         //unsubscribe audio from users above maxUsersInRoom and remove audio level view
-        for (int i = min; i < size; i++) {
-            OpenTokSubscriber customSubscriber = mSubscribers.get(i);
-            customSubscriber.setSubscribeToAudio(false);
-            customSubscriber.setAudioLevelView(null);
-        }
+//        for (int i = min; i < size; i++) {
+//            OpenTokSubscriber customSubscriber = mSubscribers.get(i);
+//            customSubscriber.setSubscribeToAudio(false);
+//            customSubscriber.setAudioLevelView(null);
+//        }
 
         //hide audio level bars if users count less than maxUsersInRoom
-        for (int i = size; i < maxUsersInRoom; i++) {
-            mUserNames.get(i).setVisibility(View.GONE);
-            mAudioLevels.get(i).setVisibility(View.GONE);
-        }
+//        for (int i = size; i < Math.min(maxUsersInRoom, mUserNames.size()); i++) {
+//            mUserNames.get(i).setVisibility(View.GONE);
+//            mAudioLevels.get(i).setVisibility(View.GONE);
+//        }
 
         updatePreviews();
     }
@@ -292,6 +311,19 @@ public class OpenTokSession extends Session {
         return TextUtils.isEmpty(Prefs.getString(PrefKeys.LOGIN_USER, PrefKeys.EMPTY_STRING)) ?
                 "Viewer" :
                 Prefs.getString(PrefKeys.LOGIN_USER, PrefKeys.EMPTY_STRING);
+    }
+
+    private void changeLayoutsVisibility(int count) {
+        if (count > 2) {
+            mLayouts.get(0).setVisibility(View.VISIBLE);
+            mLayouts.get(1).setVisibility(View.VISIBLE);
+        } else if (count > 0) {
+            mLayouts.get(0).setVisibility(View.GONE);
+            mLayouts.get(1).setVisibility(View.VISIBLE);
+        } else {
+            mLayouts.get(0).setVisibility(View.GONE);
+            mLayouts.get(1).setVisibility(View.GONE);
+        }
     }
 
 }

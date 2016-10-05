@@ -124,7 +124,7 @@ public class MeterView extends View {
 
         switch (action) {
             case (MotionEvent.ACTION_DOWN):
-                mMute = !mMute;
+                setIsMute(!mMute);
                 if (mListener != null) {
                     mListener.onClick(this);
                 }

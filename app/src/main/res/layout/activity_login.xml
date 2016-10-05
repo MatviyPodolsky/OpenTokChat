@@ -50,7 +50,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/login_info_2"
-                    android:textStyle="bold"
                     android:textSize="@dimen/username_info_text_size"
                     android:textColor="@color/info_color"/>
 
@@ -73,7 +72,7 @@
                 android:text="@string/login_info_4"
                 android:gravity="center"
                 android:textSize="@dimen/username_info_text_size"
-                android:textColor="@color/info_color"/>
+                android:textColor="@color/colorAccent"/>
 
         </RelativeLayout>
 
@@ -97,7 +96,7 @@
             android:textColor="@color/info_color"
             android:maxEms="32"
             android:hint="@string/hint_login"
-            android:drawableLeft="@drawable/ic_user_normal"
+            android:drawableLeft="@drawable/ic_username"
             android:drawablePadding="@dimen/username_drawable_padding"
             android:background="@android:color/transparent"
             android:textColorHighlight="@color/colorPrimaryDark" />
@@ -109,15 +108,13 @@
             android:layout_below="@id/edLogin"
             android:background="@color/black_grey"/>
 
-        <android.support.v7.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/saveLogin"
-            android:layout_width="@dimen/confirm_width"
-            android:layout_height="@dimen/confirm_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/confirm"
-            android:textColor="@color/white"
-            android:background="@drawable/btn_blue"
-            android:drawableLeft="@drawable/ic_check"
+            android:background="@drawable/btn_large_confirm"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/confirm_bot_margin"/>
 
