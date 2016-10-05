@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by matviy on 12.09.16.
@@ -81,6 +82,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<PeerHolder> {
                 Glide.with(mContext)
                         .load(room.getImageUrl())
                         .fitCenter()
+                        .bitmapTransform( new CropCircleTransformation(mContext))
                         .into(holder.icon);
             }
         }

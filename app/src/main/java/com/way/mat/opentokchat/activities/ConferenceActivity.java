@@ -44,6 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,7 +140,7 @@ public class ConferenceActivity extends BaseActivity implements CallbackSession 
         tvDescription.setText(room.getDescription());
         final String realUrl = ImageUrlUtils.getRealUrl(room.getImageUrl());
         Log.d(TAG, "url: " + realUrl);
-        Glide.with(this).load(realUrl).into(imgLogo);
+        Glide.with(this).load(realUrl).centerCrop().bitmapTransform( new CropCircleTransformation(this)).into(imgLogo);
 
 //        setTitle("test");
 //        tvTitle.setText("test");

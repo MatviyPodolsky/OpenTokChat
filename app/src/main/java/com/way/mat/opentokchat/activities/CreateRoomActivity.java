@@ -34,6 +34,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -153,7 +154,7 @@ public class CreateRoomActivity extends BaseActivity {
                     }
                     break;
             }
-            Glide.with(this).load(selectedImage).fitCenter().into(imgPreview);
+            Glide.with(this).load(selectedImage).fitCenter().bitmapTransform( new CropCircleTransformation(this)).into(imgPreview);
 //            Picasso.with(CreateRoomActivity.this).load(selectedImage).centerInside().fit().into(imgPreview);
             uploadFile(selectedImage);
         }
